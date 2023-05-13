@@ -1,6 +1,7 @@
 "use client";
 import React, { useCallback, useState } from "react";
 import { Input } from "@/components/Input";
+import axios from "axios";
 import Hero from "@/public/img/hero.jpg";
 
 export default function Login() {
@@ -15,6 +16,19 @@ export default function Login() {
       currentVariant === "login" ? "register" : "login"
     );
   }, []);
+
+  const register = useCallback(async () => {
+    try {
+      await axios.post("/api/register", {
+        email,
+        name,
+        password,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [email, name, password]);
+
   return (
     <div className="relative h-full w-full bg-[url('/public/img/hero.png')] bg-no-repeat bg-center bg-cover ">
       <div className="bg-black w-full h-full lg:bg-opacity-50">
@@ -48,7 +62,10 @@ export default function Login() {
                 value={password}
               />
             </div>
-            <button className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
+            <button
+              onClick={register}
+              className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
+            >
               {variant === "login" ? "Login" : "Sign up"}
             </button>
             <p className="text-neutral-500 mt-12">
