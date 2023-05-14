@@ -19,9 +19,8 @@ model User {
   hashedPassword String?
   created_at     DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-
-  sessions Session[]
-  accounts Account[]
+  sessions       Session[]
+  accounts       Account[]
 }
 
 model Account {
@@ -31,7 +30,7 @@ model Account {
   provider          String
   providerAccountId String
   refresh_token     String?
-  acess_token       String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?

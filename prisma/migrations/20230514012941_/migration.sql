@@ -20,7 +20,7 @@ CREATE TABLE "Account" (
     "provider" TEXT NOT NULL,
     "providerAccountId" TEXT NOT NULL,
     "refresh_token" TEXT,
-    "acess_token" TEXT,
+    "access_token" TEXT,
     "expires_at" INTEGER,
     "token_type" TEXT,
     "scope" TEXT,
