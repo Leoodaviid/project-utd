@@ -1,9 +1,21 @@
-import Image from "next/image";
+"use client";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { NavBar } from "../app/components/NavBar";
 
-export default function Home() {
+function Home() {
+  const { data: user } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/auth");
+    },
+  });
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Hello World</h1>
-    </main>
+    <>
+      <NavBar />
+    </>
   );
 }
+
+export default Home;

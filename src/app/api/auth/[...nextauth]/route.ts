@@ -3,18 +3,18 @@ import Credentials from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "../../../prisma/prisma";
+import { prisma } from "../../../../prisma/prisma";
 import { compare } from "bcrypt";
 
 export const authConfig: AuthOptions = {
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_ID || "",
-      clientSecret: process.env.GITHUB_SECRET || "",
+      clientId: process.env.GITHUB_ID as string,
+      clientSecret: process.env.GITHUB_SECRET as string,
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     Credentials({
       id: "credentials",
@@ -30,7 +30,7 @@ export const authConfig: AuthOptions = {
         },
       },
       async authorize(credentials) {
-        if (credentials?.email || !credentials?.password) {
+        if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password required");
         }
 
