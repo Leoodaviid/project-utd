@@ -21,11 +21,13 @@ model User {
   updatedAt      DateTime  @updatedAt
   sessions       Session[]
   accounts       Account[]
+  Movie          Movie[]
 }
 
 model Account {
   id                String  @id @default(uuid())
   userId            String
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   type              String
   provider          String
   providerAccountId String
@@ -36,17 +38,16 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
 model Session {
   id           String   @id @default(uuid())
-  sessionToken String   @unique
   userId       String
-  expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionToken String   @unique
+  expires      DateTime
 }
 
 model VerificationToken {
@@ -60,6 +61,8 @@ model VerificationToken {
 
 model Movie {
   id           String @id @default(uuid())
+  userId       String
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   title        String
   description  String
   videoUrl     String
