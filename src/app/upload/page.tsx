@@ -39,7 +39,6 @@ export default function Upload() {
           <div className="flex justify-center h-[100vh]">
             <div className="bg-black bg-opacity-70 px-10 py-16 self-center lg:w-4/5 lg:max-w-md rounded-md w-full">
               <h2 className="text-white  text-4xl mb-8 font-semibold">
-                {/* {variant === "login" ? "Sign in" : "Register"} */}
                 Insert New Video
               </h2>
               <div className="flex flex-col gap-4">

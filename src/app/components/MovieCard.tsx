@@ -1,6 +1,6 @@
 import { Movie } from "@prisma/client";
 import { BsFillPlayFill } from "react-icons/bs";
-import Image from "next/image";
+import { DeleteButton } from "../components/DeleteButton";
 import React from "react";
 
 interface MovieCardProps {
@@ -29,6 +29,7 @@ export const MovieCard = ({ data }: MovieCardProps) => {
             >
               <BsFillPlayFill size={30} color="black" />
             </div>
+            <DeleteButton movieId={data.id} />
           </div>
           <p className="text-green-400 font-semibold mt-4">
             New <span className="text-white">2023</span>

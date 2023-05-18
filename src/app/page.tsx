@@ -4,16 +4,35 @@ import { redirect } from "next/navigation";
 import { NavBar } from "../app/components/NavBar";
 import { Billboard } from "../app/components/Billboard";
 import { MovieList } from "../app/components/MovieList";
-import { useMovie } from "./hooks/useMovie";
+import { getMovies } from "./service/mainApi/movies";
+import { useEffect, useState } from "react";
+import { Movie } from "@prisma/client";
 
 function Home() {
+  const [movies, setMovies] = useState<Movie[]>([]);
+
   const { data: user } = useSession({
     required: true,
     onUnauthenticated() {
       redirect("/auth");
     },
   });
-  const { data: movies = [] } = useMovie();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const moviesRequest = await getMovies();
+
+        const request = [moviesRequest];
+
+        const [{ data: moviesResponse }] = await Promise.all(request);
+
+        setMovies(moviesResponse);
+      } catch (error) {
+        throw new Error(`Error: ${error}`);
+      }
+    })();
+  }, [setMovies]);
 
   return (
     <>

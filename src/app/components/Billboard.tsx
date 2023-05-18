@@ -1,10 +1,7 @@
 import React from "react";
-import { useBillboard } from "../hooks/useBillboard";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
 export const Billboard = () => {
-  const { data } = useBillboard();
-
   return (
     <div className="relative h-[56.25vw]">
       <video

@@ -4,7 +4,7 @@ import { Movie } from "@prisma/client";
 import { MovieCard } from "./MovieCard";
 
 interface MovieListProps {
-  data?: Movie[];
+  data: Movie[];
   title: string;
 }
 export const MovieList = ({ data, title }: MovieListProps) => {
@@ -18,7 +18,7 @@ export const MovieList = ({ data, title }: MovieListProps) => {
           {title}
         </p>
         <div className="grid grid-cols-4 gap-2">
-          {data?.map((movie) => (
+          {data.map((movie) => (
             <MovieCard key={movie.id} data={movie} />
           ))}
         </div>
