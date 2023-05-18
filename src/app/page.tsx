@@ -22,11 +22,8 @@ function Home() {
     (async () => {
       try {
         const moviesRequest = await getMovies();
-
         const request = [moviesRequest];
-
         const [{ data: moviesResponse }] = await Promise.all(request);
-
         setMovies(moviesResponse);
       } catch (error) {
         throw new Error(`Error: ${error}`);
