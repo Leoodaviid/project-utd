@@ -12,7 +12,7 @@ export default function Upload() {
   const [description, setDescription] = useState<string>("");
   const [videoUrl, setVideoUrl] = useState<string>("");
   const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
-  const [gender, setGender] = useState<string>("");
+  const [genre, setGenre] = useState<string>("");
   const [duration, setduration] = useState<string>("");
 
   const register = useCallback(async () => {
@@ -22,14 +22,14 @@ export default function Upload() {
         description,
         videoUrl,
         thumbnailUrl,
-        gender,
+        genre,
         duration,
       });
       router.push("/");
     } catch (err) {
       console.log(err);
     }
-  }, [title, description, videoUrl, thumbnailUrl, gender, duration]);
+  }, [title, description, videoUrl, thumbnailUrl, genre, duration]);
 
   return (
     <>
@@ -71,11 +71,11 @@ export default function Upload() {
                   value={thumbnailUrl}
                 />
                 <Input
-                  label="Gender"
-                  onChange={(e: any) => setGender(e.target.value)}
-                  id="gender"
+                  label="Genre"
+                  onChange={(e: any) => setGenre(e.target.value)}
+                  id="genre"
                   type="text"
-                  value={gender}
+                  value={genre}
                 />
                 <Input
                   label="Duration"

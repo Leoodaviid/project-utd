@@ -14,7 +14,7 @@ interface MovieData {
   description: string;
   videoUrl: string;
   thumbnailUrl: string;
-  gender: string;
+  genre: string;
   duration: string;
 }
 export const updateMovie = (movie: MovieData, movieId: string | null) =>

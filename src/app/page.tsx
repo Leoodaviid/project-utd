@@ -31,15 +31,16 @@ function Home() {
     })();
   }, [setMovies]);
 
-  return (
-    <>
-      <NavBar />
-      <Billboard />
-      <div className="pb-40">
-        <MovieList title="Trending Now" data={movies} />
-      </div>
-    </>
-  );
+  if (movies)
+    return (
+      <>
+        <NavBar />
+        <Billboard />
+        <div className="pb-40">
+          {movies && <MovieList title="Trending Now" data={movies} />}
+        </div>
+      </>
+    );
 }
 
 export default Home;

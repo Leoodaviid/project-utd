@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
         description: body.description,
         videoUrl: body.videoUrl,
         thumbnailUrl: body.thumbnailUrl,
-        gender: body.gender,
+        genre: body.genre,
         duration: body.duration,
         userId: user.id,
       },

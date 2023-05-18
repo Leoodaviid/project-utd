@@ -42,7 +42,7 @@ export const MovieCard = ({ data }: MovieCardProps) => {
             <p className="text-white text-[10px] lg:text-sm">{data.duration}</p>
           </div>
           <div className="flex flex-row mt-4 gap-2 items-center">
-            <p className="text-white text-[10px] lg:text-sm">{data.gender}</p>
+            <p className="text-white text-[10px] lg:text-sm">{data.genre}</p>
           </div>
         </div>
       </div>

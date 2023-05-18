@@ -58,7 +58,7 @@ CREATE TABLE "Movie" (
     "description" TEXT NOT NULL,
     "videoUrl" TEXT NOT NULL,
     "thumbnailUrl" TEXT NOT NULL,
-    "gender" TEXT NOT NULL,
+    "genre" TEXT NOT NULL,
     "duration" TEXT NOT NULL,
 
     CONSTRAINT "Movie_pkey" PRIMARY KEY ("id")

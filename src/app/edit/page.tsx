@@ -14,7 +14,7 @@ export default function Edit() {
   const [description, setDescription] = useState<string>("");
   const [videoUrl, setVideoUrl] = useState<string>("");
   const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
-  const [gender, setGender] = useState<string>("");
+  const [genre, setGenre] = useState<string>("");
   const [duration, setduration] = useState<string>("");
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function Edit() {
         setDescription(moviesResponse.description);
         setVideoUrl(moviesResponse.videoUrl);
         setThumbnailUrl(moviesResponse.thumbnailUrl);
-        setGender(moviesResponse.gender);
+        setGenre(moviesResponse.genre);
         setduration(moviesResponse.duration);
       } catch (error) {
         throw new Error(`Error: ${error}`);
@@ -43,7 +43,7 @@ export default function Edit() {
           description,
           videoUrl,
           thumbnailUrl,
-          gender,
+          genre,
           duration,
         },
         movieId
@@ -94,11 +94,11 @@ export default function Edit() {
                   value={thumbnailUrl}
                 />
                 <Input
-                  label="Gender"
-                  onChange={(e: any) => setGender(e.target.value)}
-                  id="gender"
+                  label="Genre"
+                  onChange={(e: any) => setGenre(e.target.value)}
+                  id="genre"
                   type="text"
-                  value={gender}
+                  value={genre}
                 />
                 <Input
                   label="Duration"
