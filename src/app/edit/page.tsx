@@ -1,119 +1,117 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
-import { NavBar } from "../components/NavBar";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import { Input } from "../components/Input";
-import { getMovie, updateMovie } from "../service/mainApi/movies";
-import { Movie } from "@prisma/client";
+import { useMovie } from "../hooks/useMovie";
+import { MovieDataProps } from "../models/models";
+import { getMovie } from "../service/mainApi/movies";
 
 export default function Edit() {
+  const { editMovie, loading } = useMovie();
   const router = useRouter();
   const searchParams = useSearchParams();
   const movieId = searchParams.get("movie");
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [videoUrl, setVideoUrl] = useState<string>("");
-  const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
-  const [genre, setGenre] = useState<string>("");
-  const [duration, setduration] = useState<string>("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<MovieDataProps>();
 
   useEffect(() => {
     (async () => {
       try {
-        const moviesRequest = await getMovie(movieId);
-        const request = [moviesRequest];
-        const [{ data: moviesResponse }] = await Promise.all(request);
-        setTitle(moviesResponse.title);
-        setDescription(moviesResponse.description);
-        setVideoUrl(moviesResponse.videoUrl);
-        setThumbnailUrl(moviesResponse.thumbnailUrl);
-        setGenre(moviesResponse.genre);
-        setduration(moviesResponse.duration);
+        const response = await getMovie(movieId);
+        const movie = response.data;
+        reset(movie);
       } catch (error) {
-        throw new Error(`Error: ${error}`);
+        console.error("Erro ao buscar os dados do filme", error);
       }
     })();
-  }, [movieId]);
+  }, [movieId, getMovie, reset]);
 
-  const editMovie = async () => {
-    try {
-      await updateMovie(
-        {
-          title,
-          description,
-          videoUrl,
-          thumbnailUrl,
-          genre,
-          duration,
-        },
-        movieId
-      );
-      router.push("/");
-    } catch (error) {
-      throw new Error(`Error: ${error}`);
-    }
+  const onSubmit = async (movie: MovieDataProps) => {
+    await editMovie(movieId, movie);
   };
 
   return (
     <>
-      <NavBar />
-      <div className=" bg-white h-full w-full">
+      <div className=" h-full w-full">
+        <nav className="fixed w-full p-4 z-10 flex flex-row items-center gap-8 bg-black bg-opacity-70">
+          <AiOutlineArrowLeft
+            onClick={() => router.push("/")}
+            className="text-white cursor-pointer"
+            size={30}
+          />
+        </nav>
         <div className="bg-black w-full h-full lg:bg-opacity-50">
           <div className="flex justify-center h-[100vh]">
             <div className="bg-black bg-opacity-70 px-10 py-16 self-center lg:w-4/5 lg:max-w-md rounded-md w-full">
-              <h2 className="text-white  text-4xl mb-8 font-semibold">
-                Update Video
-              </h2>
-              <div className="flex flex-col gap-4">
-                <Input
-                  label="Title"
-                  onChange={(e: any) => setTitle(e.target.value)}
-                  id="title"
-                  type="text"
-                  value={title}
-                />
-                <Input
-                  label="Description"
-                  onChange={(e: any) => setDescription(e.target.value)}
-                  id="description"
-                  type="text"
-                  value={description}
-                />
-                <Input
-                  label="Url"
-                  onChange={(e: any) => setVideoUrl(e.target.value)}
-                  id="videoUrl"
-                  type="text"
-                  value={videoUrl}
-                />
-                <Input
-                  label="Cover"
-                  onChange={(e: any) => setThumbnailUrl(e.target.value)}
-                  id="thumbnailUrl"
-                  type="text"
-                  value={thumbnailUrl}
-                />
-                <Input
-                  label="Genre"
-                  onChange={(e: any) => setGenre(e.target.value)}
-                  id="genre"
-                  type="text"
-                  value={genre}
-                />
-                <Input
-                  label="Duration"
-                  onChange={(e: any) => setduration(e.target.value)}
-                  id="duration"
-                  type="text"
-                  value={duration}
-                />
-              </div>
-              <button
-                onClick={editMovie}
-                className="bg-orange-500 py-3 text-white rounded-md w-full mt-10 hover:bg-orange-600 transition"
-              >
-                Update now
-              </button>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <h2 className="text-white  text-4xl mb-8 font-semibold">
+                  Update Video
+                </h2>
+                <div className="flex flex-col gap-4">
+                  <Input
+                    id="title"
+                    label="Title"
+                    type="text"
+                    {...register("title", { required: true, minLength: 3 })}
+                    errors={errors.title}
+                  />
+
+                  <Input
+                    id="description"
+                    label="Description"
+                    type="text"
+                    {...register("description", {
+                      required: true,
+                      minLength: 3,
+                    })}
+                    errors={errors.description}
+                  />
+                  <Input
+                    label="Url"
+                    id="videoUrl"
+                    type="text"
+                    {...register("videoUrl", { required: true, minLength: 3 })}
+                    errors={errors.videoUrl}
+                  />
+                  <Input
+                    label="Cover"
+                    id="thumbnailUrl"
+                    type="text"
+                    {...register("thumbnailUrl", {
+                      required: true,
+                      minLength: 3,
+                    })}
+                    errors={errors.thumbnailUrl}
+                  />
+                  <Input
+                    label="Genre"
+                    id="genre"
+                    type="text"
+                    {...register("genre", { required: true, minLength: 3 })}
+                    errors={errors.genre}
+                  />
+                  <Input
+                    label="Duration"
+                    id="duration"
+                    type="text"
+                    {...register("duration", { required: true, minLength: 3 })}
+                    errors={errors.duration}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="bg-orange-500 py-3 text-white rounded-md w-full mt-10 hover:bg-orange-600 transition"
+                >
+                  {loading ? "updating..." : "Update now"}
+                </button>
+              </form>
             </div>
           </div>
         </div>

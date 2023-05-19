@@ -2,6 +2,7 @@ import "@/app/styles/globals.css";
 import { Inter } from "next/font/google";
 import { getServerSession } from "next-auth";
 import { SessionProvider } from "@/app/components/providers/SessionProvider";
+import { MovieStorage } from "./context/MovieContext";
 import { authConfig } from "./api/auth/[...nextauth]/route";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,7 +21,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider session={session}>
+          <MovieStorage>{children}</MovieStorage>
+        </SessionProvider>
       </body>
     </html>
   );

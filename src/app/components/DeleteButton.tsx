@@ -1,25 +1,16 @@
-import React, { useCallback } from "react";
-import { deleteMovie } from "../service/mainApi/movies";
+import React from "react";
 import { BsXLg } from "react-icons/bs";
+import { useMovie } from "../hooks/useMovie";
 
 interface DeleteButtonProps {
   movieId: string;
 }
 
 export const DeleteButton = ({ movieId }: DeleteButtonProps) => {
-  const toggleDelete = useCallback(async () => {
-    try {
-      const response = await deleteMovie(movieId);
-
-      if (response.status == 200) {
-        console.log("Filme excluído com sucesso");
-      } else {
-        console.error("Erro ao excluir o filme");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, [movieId]);
+  const { removeMovie } = useMovie();
+  const toggleDelete = () => {
+    removeMovie(movieId);
+  };
 
   return (
     <div

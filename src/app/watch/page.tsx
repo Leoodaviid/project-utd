@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getMovie } from "../service/mainApi/movies";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { NavBar } from "../components/NavBar";
 import { Movie } from "@prisma/client";
-import { data } from "autoprefixer";
 
 export default function Watch() {
   const router = useRouter();

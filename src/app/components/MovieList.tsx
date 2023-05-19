@@ -1,5 +1,5 @@
 import React from "react";
-import { divide, isEmpty } from "lodash";
+import { isEmpty } from "lodash";
 import { Movie } from "@prisma/client";
 import { MovieCard } from "./MovieCard";
 
