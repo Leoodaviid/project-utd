@@ -37,12 +37,14 @@ export default function Watch() {
           {movie?.title}
         </p>
       </nav>
-      <video
-        autoPlay
-        controls
+      <iframe
         className="h-full w-full"
+        width="1330"
+        height="746"
         src={movie?.videoUrl}
-      ></video>
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+      ></iframe>
     </div>
   );
 }
