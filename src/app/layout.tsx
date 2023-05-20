@@ -1,8 +1,8 @@
-import "@/app/styles/globals.css";
+import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import { getServerSession } from "next-auth";
-import { SessionProvider } from "@/app/components/providers/SessionProvider";
-import { MovieStorage } from "./context/MovieContext";
+import { SessionProvider } from "@/components/providers/SessionProvider";
+import { MovieStorage } from "@/context/MovieContext";
 import { authConfig } from "./api/auth/[...nextauth]/route";
 
 const inter = Inter({ subsets: ["latin"] });

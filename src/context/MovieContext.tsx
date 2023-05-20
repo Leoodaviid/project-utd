@@ -6,9 +6,9 @@ import {
   getMovies,
   postMovie,
   updateMovie,
-} from "../service/mainApi/movies";
+} from "@/service/mainApi/movies";
 import { useRouter } from "next/navigation";
-import { MovieDataProps } from "../models/models";
+import { MovieDataProps } from "@/models/models";
 
 interface MoviesContextProps {
   createMovie(movie: MovieDataProps): Promise<void>;

@@ -1,7 +1,7 @@
 import { Movie } from "@prisma/client";
 import { BsFillPlayFill } from "react-icons/bs";
-import { DeleteButton } from "../components/DeleteButton";
-import { EditButton } from "../components/EditButton";
+import { DeleteButton } from "@/components/DeleteButton";
+import { EditButton } from "@/components/EditButton";
 import { useRouter } from "next/navigation";
 import React from "react";
 import Image from "next/image";

@@ -1,23 +1,23 @@
 "use client";
 import React, { useCallback, useState } from "react";
 import axios from "axios";
-import { Input } from "@/app/components/Input";
+import Image from "next/image";
+import popcorn from "/public/img/popcorn.png";
+import { Input } from "@/components/Input";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import Image from "next/image";
-import popcorn from "/public/img/popcorn.png";
 
 export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [variant, setvariant] = useState("login");
+  const [variant, setVariant] = useState("login");
 
-  const togglevariant = useCallback(() => {
-    setvariant((currentVariant) =>
+  const toggleVariant = useCallback(() => {
+    setVariant((currentVariant) =>
       currentVariant === "login" ? "register" : "login"
     );
   }, []);
@@ -115,7 +115,7 @@ export default function Login() {
                 ? "First time using VideoHub?"
                 : "Already have an account?"}
               <span
-                onClick={togglevariant}
+                onClick={toggleVariant}
                 className="text-white ml-1 hover:underline cursor-pointer"
               >
                 {variant === "login" ? "Create an account" : "Login"}

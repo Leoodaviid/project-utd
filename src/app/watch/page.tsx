@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getMovie } from "../service/mainApi/movies";
+import { getMovie } from "@/service/mainApi/movies";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { Movie } from "@prisma/client";
 

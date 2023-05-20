@@ -1,6 +1,6 @@
 import React from "react";
 import { BsXLg } from "react-icons/bs";
-import { useMovie } from "../hooks/useMovie";
+import { useMovie } from "@/hooks/useMovie";
 
 interface DeleteButtonProps {
   movieId: string;

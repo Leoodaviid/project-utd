@@ -3,11 +3,11 @@ import { signOut, useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import Image from "next/image";
 
-interface AccoutMenuProps {
+interface AccountMenuProps {
   visible?: boolean;
 }
 
-export const AccountMenu = ({ visible }: AccoutMenuProps) => {
+export const AccountMenu = ({ visible }: AccountMenuProps) => {
   const router = useRouter();
 
   const { data: user } = useSession({
@@ -28,12 +28,12 @@ export const AccountMenu = ({ visible }: AccoutMenuProps) => {
             <Image
               width={100}
               height={100}
-              className="w-8 rouded-md"
+              className="w-8 rounded-md"
               src={user.user.image}
               alt=""
             />
           ) : (
-            <Image className="w-8 rouded-md" src="" alt="" />
+            <Image className="w-8 rounded-md" src="" alt="" />
           )}
           <p className="text-white text-sm group-hover/item:underline">
             {user?.user?.name}

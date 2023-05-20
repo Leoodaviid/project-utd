@@ -1,6 +1,6 @@
 import { ForwardedRef, forwardRef } from "react";
 import { UseFormRegisterReturn, FieldError } from "react-hook-form";
-import { Error } from "../components/Error";
+import { Error } from "@/components/Error";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;

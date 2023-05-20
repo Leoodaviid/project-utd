@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { NavItem } from "@/app/components/NavItem";
-import { MobileMenu } from "@/app/components/MobileMenu";
-import { AccountMenu } from "@/app/components/AccountMenu";
+import { NavItem } from "@/components/NavItem";
+import { MobileMenu } from "@/components/MobileMenu";
+import { AccountMenu } from "@/components/AccountMenu";
 import { BsChevronDown, BsSearch, BsBell } from "react-icons/bs";
 import Image from "next/image";
 import ImageBlue from "@/../public/img/default-blue.png";
@@ -77,11 +77,11 @@ export const NavBar = () => {
             className="flex flex-row items-center gap-2 cursor-pointer relative"
           >
             <div className="w-6 h-6 lg:w-10 lg:h-10 rounded-md overflow-hidden">
-              <Image src={ImageBlue} alt="icon image vetor" />
+              <Image src={ImageBlue} alt="icon image vector" />
             </div>
             <BsChevronDown
               className={`text-white transition ${
-                showAccountMenu ? "rotate-180" : "ratate-0"
+                showAccountMenu ? "rotate-180" : "rotate-0"
               }`}
             />
             <AccountMenu visible={showAccountMenu} />

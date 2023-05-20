@@ -1,5 +1,5 @@
 import { Movie } from "@prisma/client";
-import { MovieDataProps } from "../../models/models";
+import { MovieDataProps } from "@/models/models";
 import api from "./config";
 
 export const getMovies = () => api.get<Movie[]>("api/movies");

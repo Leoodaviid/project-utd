@@ -1,10 +1,10 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { NavBar } from "../app/components/NavBar";
-import { Billboard } from "../app/components/Billboard";
-import { MovieList } from "../app/components/MovieList";
-import { useMovie } from "./hooks/useMovie";
+import { NavBar } from "@/components/NavBar";
+import { Billboard } from "@/components/Billboard";
+import { MovieList } from "@/components/MovieList";
+import { useMovie } from "@/hooks/useMovie";
 
 function Home() {
   const { movies } = useMovie();

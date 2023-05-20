@@ -3,10 +3,10 @@ import React, { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { Input } from "../components/Input";
-import { useMovie } from "../hooks/useMovie";
-import { MovieDataProps } from "../models/models";
-import { getMovie } from "../service/mainApi/movies";
+import { Input } from "@/components/Input";
+import { useMovie } from "@/hooks/useMovie";
+import { MovieDataProps } from "@/models/models";
+import { getMovie } from "@/service/mainApi/movies";
 
 export default function Edit() {
   const { editMovie, loading } = useMovie();

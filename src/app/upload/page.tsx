@@ -2,9 +2,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { Input } from "../components/Input";
-import { useMovie } from "../hooks/useMovie";
-import { MovieDataProps } from "../models/models";
+import { Input } from "@/components/Input";
+import { useMovie } from "@/hooks/useMovie";
+import { MovieDataProps } from "@/models/models";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
 export default function Upload() {
