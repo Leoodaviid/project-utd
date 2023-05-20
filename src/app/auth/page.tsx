@@ -1,19 +1,17 @@
 "use client";
 import React, { useCallback, useState } from "react";
-import axios from "axios";
 import Image from "next/image";
 import popcorn from "/public/img/popcorn.png";
+import { useForm } from "react-hook-form";
 import { Input } from "@/components/Input";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { useMovie } from "@/hooks/useMovie";
+import { UserCreateProps } from "@/models/models";
 
 export default function Login() {
-  const router = useRouter();
-  const [email, setEmail] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const { create, login, loading } = useMovie();
   const [variant, setVariant] = useState("login");
 
   const toggleVariant = useCallback(() => {
@@ -22,34 +20,21 @@ export default function Login() {
     );
   }, []);
 
-  const login = useCallback(async () => {
-    try {
-      await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-        callbackUrl: "/",
-      });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<UserCreateProps>();
 
-      router.push("/profiles");
-    } catch (err) {
-      console.log(err);
+  const onSubmit = async (data: UserCreateProps) => {
+    if (variant === "login") {
+      await login(data.email, data.password);
+    } else {
+      await create(data.name, data.email, data.password);
     }
-  }, [email, password, router]);
-
-  const register = useCallback(async () => {
-    try {
-      await axios.post("/api/register", {
-        email,
-        name,
-        password,
-      });
-
-      login();
-    } catch (err) {
-      console.log(err);
-    }
-  }, [email, name, password, login]);
+    reset();
+  };
 
   return (
     <div className="relative h-[100vh] w-full bg-no-repeat bg-center bg-cover">
@@ -63,39 +48,48 @@ export default function Login() {
         </div>
         <div className="flex justify-center">
           <div className="bg-black bg-opacity-70 px-10 py-16 self-center lg:w-4/5 lg:max-w-md rounded-md w-full">
-            <h2 className="text-white  text-4xl mb-8 font-semibold">
-              {variant === "login" ? "Sign in" : "Register"}
-            </h2>
-            <div className="flex flex-col gap-4">
-              {variant === "register" && (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <h2 className="text-white  text-4xl mb-8 font-semibold">
+                {variant === "login" ? "Sign in" : "Register"}
+              </h2>
+              <div className="flex flex-col gap-4">
+                {variant === "register" && (
+                  <Input
+                    label="Username"
+                    id="name"
+                    type="text"
+                    {...register("name", { required: true, minLength: 3 })}
+                    errors={errors.name}
+                  />
+                )}
                 <Input
-                  label="Username"
-                  onChange={(e: any) => setName(e.target.value)}
-                  id="name"
-                  value={name}
+                  label="Email"
+                  id="email"
+                  type="email"
+                  {...register("email", { required: true, minLength: 3 })}
+                  errors={errors.email}
                 />
-              )}
-              <Input
-                label="Email"
-                onChange={(e: any) => setEmail(e.target.value)}
-                id="email"
-                type="email"
-                value={email}
-              />
-              <Input
-                label="Password"
-                onChange={(e: any) => setPassword(e.target.value)}
-                id="password"
-                type="password"
-                value={password}
-              />
-            </div>
-            <button
-              onClick={variant === "login" ? login : register}
-              className="bg-orange-500 py-3 text-white rounded-md w-full mt-10 hover:bg-orange-600 transition"
-            >
-              {variant === "login" ? "Login" : "Sign up"}
-            </button>
+                <Input
+                  label="Password"
+                  id="password"
+                  type="password"
+                  {...register("password", { required: true, minLength: 3 })}
+                  errors={errors.password}
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-orange-500 py-3 text-white rounded-md w-full mt-10 hover:bg-orange-600 transition"
+              >
+                {variant === "login"
+                  ? loading
+                    ? "Loading..."
+                    : "Login"
+                  : loading
+                  ? "Loading..."
+                  : "Sign up"}
+              </button>
+            </form>
             <div className="flex flex-row items-center gap-4 mt-8 justify-center">
               <div
                 onClick={() => signIn("google", { callbackUrl: "/profiles" })}

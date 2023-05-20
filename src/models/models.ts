@@ -6,3 +6,9 @@ export interface MovieDataProps {
   genre: string;
   duration: string;
 }
+
+export interface UserCreateProps {
+  name: string;
+  email: string;
+  password: string;
+}

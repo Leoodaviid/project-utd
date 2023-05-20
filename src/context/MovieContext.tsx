@@ -1,16 +1,26 @@
 "use client";
 import { Movie } from "@prisma/client";
-import React, { createContext, ReactNode, useState, useEffect } from "react";
+import React, {
+  createContext,
+  ReactNode,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import {
   deleteMovie,
   getMovies,
   postMovie,
   updateMovie,
 } from "@/service/mainApi/movies";
+import { userCreate } from "@/service/mainApi/user";
 import { useRouter } from "next/navigation";
-import { MovieDataProps } from "@/models/models";
+import { MovieDataProps, UserCreateProps } from "@/models/models";
+import { signIn } from "next-auth/react";
 
 interface MoviesContextProps {
+  login: (email: string, password: string) => Promise<void>;
+  create(name: string, email: string, password: string): Promise<void>;
   createMovie(movie: MovieDataProps): Promise<void>;
   editMovie(
     movieId: string | null,
@@ -50,6 +60,39 @@ export const MovieStorage = ({ children }: { children: ReactNode }) => {
       }
     })();
   }, [setMovies]);
+
+  async function login(email: string, password: string) {
+    try {
+      setError(null);
+      setLoading(true);
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+      router.push("/profiles");
+    } catch (error: any) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function create(name: string, email: string, password: string) {
+    try {
+      setError(null);
+      setLoading(true);
+      const registerRequest = await userCreate({ name, email, password });
+      if (registerRequest.status !== 200)
+        throw new Error(`Error: ${registerRequest.statusText}`);
+      await login(email, password);
+    } catch (error: any) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function createMovie(movie: MovieDataProps) {
     try {
@@ -108,7 +151,16 @@ export const MovieStorage = ({ children }: { children: ReactNode }) => {
 
   return (
     <MovieContext.Provider
-      value={{ movies, createMovie, editMovie, removeMovie, loading, error }}
+      value={{
+        movies,
+        login,
+        create,
+        createMovie,
+        editMovie,
+        removeMovie,
+        loading,
+        error,
+      }}
     >
       {children}
     </MovieContext.Provider>
