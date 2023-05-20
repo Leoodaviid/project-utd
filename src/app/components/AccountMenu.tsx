@@ -1,6 +1,7 @@
 import React from "react";
 import { signOut, useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface AccoutMenuProps {
   visible?: boolean;
@@ -24,9 +25,15 @@ export const AccountMenu = ({ visible }: AccoutMenuProps) => {
       <div className="flex flex-col gap-3">
         <div className="px-3 group/item flex flex-row gap-3 items-center w-full">
           {user?.user?.image ? (
-            <img className="w-8 rouded-md" src={user.user.image} alt="" />
+            <Image
+              width={100}
+              height={100}
+              className="w-8 rouded-md"
+              src={user.user.image}
+              alt=""
+            />
           ) : (
-            <img className="w-8 rouded-md" src="" alt="" />
+            <Image className="w-8 rouded-md" src="" alt="" />
           )}
           <p className="text-white text-sm group-hover/item:underline">
             {user?.user?.name}
