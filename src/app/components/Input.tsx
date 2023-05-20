@@ -8,7 +8,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   errors?: FieldError;
 }
 
-export const Input = forwardRef(
+export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     { id, label, type, register, errors, ...rest }: InputProps,
     ref: ForwardedRef<HTMLInputElement>
@@ -30,8 +30,8 @@ export const Input = forwardRef(
         />
         <label
           htmlFor={id}
-          className={`absolute text-md text-zinc-400 duration-150 transform -translate-y-3 scale-75 top-4 z-10 origin-[0] left-6 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 ${
-            hasError ? "text-red-500" : ""
+          className={`absolute text-md duration-150 transform -translate-y-3 scale-75 top-4 z-10 origin-[0] left-6 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 ${
+            hasError ? "text-red-600" : "text-zinc-400"
           }`}
         >
           {label}
@@ -41,3 +41,5 @@ export const Input = forwardRef(
     );
   }
 );
+
+Input.displayName = "Input";

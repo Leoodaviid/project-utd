@@ -31,7 +31,7 @@ export default function Edit() {
         console.error("Erro ao buscar os dados do filme", error);
       }
     })();
-  }, [movieId, getMovie, reset]);
+  }, [movieId, reset]);
 
   const onSubmit = async (movie: MovieDataProps) => {
     await editMovie(movieId, movie);
