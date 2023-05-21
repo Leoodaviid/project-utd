@@ -4,7 +4,7 @@ import api from "./config";
 export const getMovies = () => api.get<MovieDataProps[]>("/api/movies");
 
 export const getMovie = (movieId: string | null) =>
-  api.get(`/api/movies/${movieId}/movie`);
+  api.get<MovieDataProps>(`/api/movies/${movieId}/movie`);
 
 export const postMovie = (movie: MovieDataProps) =>
   api.post<MovieDataProps>("/api/movies", movie);
