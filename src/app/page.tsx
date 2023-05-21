@@ -5,9 +5,10 @@ import { NavBar } from "@/components/NavBar";
 import { Billboard } from "@/components/Billboard";
 import { MovieList } from "@/components/MovieList";
 import { useMovie } from "@/hooks/useMovie";
+import { InfoModal } from "@/components/InfoModal";
 
 function Home() {
-  const { movies } = useMovie();
+  const { movies, isOpen, closeModal } = useMovie();
 
   const { data: user } = useSession({
     required: true,
@@ -19,6 +20,7 @@ function Home() {
   if (movies)
     return (
       <>
+        <InfoModal visible={isOpen} onClose={closeModal} />
         <NavBar />
         <Billboard />
         <div className="pb-40">

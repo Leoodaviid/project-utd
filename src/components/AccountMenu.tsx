@@ -33,7 +33,7 @@ export const AccountMenu = ({ visible }: AccountMenuProps) => {
               alt=""
             />
           ) : (
-            <Image className="w-8 rounded-md" src="" alt="" />
+            <div className="w-8 rounded-md" />
           )}
           <p className="text-white text-sm group-hover/item:underline">
             {user?.user?.name}

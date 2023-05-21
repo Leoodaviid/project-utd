@@ -1,12 +1,5 @@
 "use client";
-import { Movie } from "@prisma/client";
-import React, {
-  createContext,
-  ReactNode,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { createContext, ReactNode, useState, useEffect } from "react";
 import {
   deleteMovie,
   getMovies,
@@ -15,7 +8,7 @@ import {
 } from "@/service/mainApi/movies";
 import { userCreate } from "@/service/mainApi/user";
 import { useRouter } from "next/navigation";
-import { MovieDataProps, UserCreateProps } from "@/models/models";
+import { MovieDataProps } from "@/models/models";
 import { signIn } from "next-auth/react";
 
 interface MoviesContextProps {
@@ -27,7 +20,11 @@ interface MoviesContextProps {
     updatedMovie: MovieDataProps
   ): Promise<void>;
   removeMovie(movieId: string): Promise<void>;
-  movies: Movie[];
+  movies: MovieDataProps[];
+  movieId: string;
+  isOpen: boolean;
+  openModal: (movieId: string) => void;
+  closeModal: () => void;
   error: null;
   loading: boolean;
 }
@@ -38,9 +35,22 @@ export const MovieContext = createContext<MoviesContextProps>(
 
 export const MovieStorage = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [movieId, setMovieId] = useState<string>("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [movies, setMovies] = useState<MovieDataProps[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const openModal = (movieId: string) => {
+    setIsOpen(true);
+    setMovieId(movieId);
+    console.log(movieId);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    setMovieId("");
+  };
 
   useEffect(() => {
     (async () => {
@@ -101,7 +111,8 @@ export const MovieStorage = ({ children }: { children: ReactNode }) => {
       const createRequest = await postMovie(movie);
       if (createRequest.status !== 200)
         throw new Error(`Error: ${createRequest.statusText}`);
-      setMovies((prevMovies) => [...prevMovies, createRequest.data]);
+      const newMovie = createRequest.data;
+      setMovies((prevMovies) => [newMovie, ...prevMovies]);
       router.push("/");
     } catch (error: any) {
       setError(error);
@@ -135,17 +146,18 @@ export const MovieStorage = ({ children }: { children: ReactNode }) => {
 
   async function removeMovie(movieId: string) {
     try {
-      const response = await deleteMovie(movieId);
-      if (response.status === 200) {
-        console.log("Filme excluído com sucesso");
-        setMovies((prevMovies) =>
-          prevMovies.filter((movie) => movie.id !== movieId)
-        );
-      } else {
-        console.error("Erro ao excluir o filme");
-      }
-    } catch (error) {
-      console.error(error);
+      setError(null);
+      setLoading(true);
+      const deleteRequest = await deleteMovie(movieId);
+      if (deleteRequest.status !== 200)
+        throw new Error(`Error: ${deleteRequest.statusText}`);
+      setMovies((prevMovies) =>
+        prevMovies.filter((movie) => movie.id !== movieId)
+      );
+    } catch (error: any) {
+      setError(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -158,6 +170,11 @@ export const MovieStorage = ({ children }: { children: ReactNode }) => {
         createMovie,
         editMovie,
         removeMovie,
+
+        movieId,
+        isOpen,
+        openModal,
+        closeModal,
         loading,
         error,
       }}
