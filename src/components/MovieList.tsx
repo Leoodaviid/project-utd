@@ -1,10 +1,10 @@
 import React from "react";
 import { isEmpty } from "lodash";
-import { Movie } from "@prisma/client";
 import { MovieCard } from "./MovieCard";
+import { MovieDataProps } from "@/models/models";
 
 interface MovieListProps {
-  data: Movie[];
+  data: MovieDataProps[] | null;
   title: string;
 }
 export const MovieList = ({ data, title }: MovieListProps) => {
@@ -18,11 +18,11 @@ export const MovieList = ({ data, title }: MovieListProps) => {
           {title}
         </p>
         <div className="grid grid-cols-4 gap-2">
-          {Array.isArray(data) ? (
-            data.map((movie) => <MovieCard key={movie.id} data={movie} />)
-          ) : (
-            <></>
-          )}
+          {Array.isArray(data)
+            ? data.map((movie) =>
+                movie.id ? <MovieCard key={movie.id} data={movie} /> : null
+              )
+            : null}
         </div>
       </div>
     </div>
